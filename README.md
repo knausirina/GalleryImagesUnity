@@ -1,2 +1,5 @@
 # unity_ui_sample
-unity sample with menu with an online gallery, tabs, and a banner carousel
+
+ Галерея изображений с системой ленивой загрузки и адаптивным интерфейсом.
+
+ ![Анимация](https://github.com/user-attachments/assets/cd28418c-b79f-4a15-919a-625774f1360b)
