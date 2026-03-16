@@ -1,0 +1,1 @@
+﻿public enum GalleryType { All, Odd, Even }

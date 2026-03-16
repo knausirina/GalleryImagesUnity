@@ -1,1 +1,0 @@
-﻿public enum GalleryFilter { All, Odd, Even }

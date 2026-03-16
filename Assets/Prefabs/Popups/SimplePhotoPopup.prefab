@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eebe6eb3172bf2f4c84b57256987ed93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CloseButton: {fileID: 2681006311831518844}
+  _closeButton: {fileID: 2681006311831518844}
   _image: {fileID: 6785079759904834142}
   _loader: {fileID: 2916168143582455023}
   _retryButton: {fileID: 1522697866772115165}

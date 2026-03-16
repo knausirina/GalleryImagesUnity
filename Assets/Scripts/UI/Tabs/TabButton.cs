@@ -6,7 +6,7 @@ using Zenject;
 public class TabButton : MonoBehaviour
 {
     [SerializeField] private GameObject _activeObject;
-    [SerializeField] private GalleryFilter _filterType;
+    [SerializeField] private GalleryType typeType;
     [SerializeField]  private TMP_Text _text;
     [field: SerializeField] public Button Button { get; private set; }
 
@@ -36,7 +36,7 @@ public class TabButton : MonoBehaviour
 
     private void OnClick()
     {
-        _signalBus.Fire(new FilterChangedSignal(_filterType));
+        _signalBus.Fire(new FilterChangedSignal(typeType));
     }
 
     public void SetState(bool isActive)

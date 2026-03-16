@@ -9,7 +9,7 @@ public class LoadingSpinner : MonoBehaviour
 
     private void OnEnable()
     {
-        RotateAsync(this.destroyCancellationToken).Forget();
+        RotateAsync(destroyCancellationToken).Forget();
     }
 
     private async UniTaskVoid RotateAsync(CancellationToken token)
