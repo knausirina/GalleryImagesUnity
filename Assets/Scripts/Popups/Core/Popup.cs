@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class Popup : MonoBehaviour
 {
     [SerializeField] private Button _closeButton;
+    
+    public event System.Action<Popup> OnClosed;
 
     protected virtual void Awake()
     {
@@ -15,6 +17,7 @@ public class Popup : MonoBehaviour
 
     public virtual void Close()
     {
+        OnClosed?.Invoke(this);
         gameObject.SetActive(false);
     }
 

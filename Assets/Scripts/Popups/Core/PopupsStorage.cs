@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class PopupsStorage
+public class PopupsStorage : IDisposable
 {
-    private DiContainer _diContainer;
+    private readonly DiContainer _diContainer;
     private readonly PopupsConfig _popupsConfig;
     private readonly GameObject _popupsRoot;
 
@@ -20,7 +20,7 @@ public class PopupsStorage
 
     public T GetView<T>() where T: Popup
     {
-        Type type = typeof(T);
+        var type = typeof(T);
         if (_activePopups.TryGetValue(type, out var existingPopup))
         {
             existingPopup.transform.SetAsLastSibling();
@@ -32,26 +32,34 @@ public class PopupsStorage
             throw new InvalidOperationException($"PopupsStorage: No prefab registered for popup type {type.Name}. Check PopupsConfig.");
         if (_popupsRoot == null)
             throw new InvalidOperationException("PopupsStorage: popupsRoot is null. Provide a valid root GameObject.");
-        var viewGameObject = _diContainer.InstantiatePrefab(prefab, _popupsRoot.transform);
-        if (viewGameObject == null)
+      
+        var popupGameObject = _diContainer.InstantiatePrefab(prefab, _popupsRoot.transform);
+        if (popupGameObject == null)
             throw new Exception($"PopupsStorage: Failed to instantiate prefab for {type.Name}");
-        viewGameObject.transform.localScale = Vector3.one;
-        var rectTransform = viewGameObject.GetComponent<RectTransform>();
+        popupGameObject.transform.localScale = Vector3.one;
+        var rectTransform = popupGameObject.GetComponent<RectTransform>();
         if (rectTransform != null)
         {
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.localScale = Vector3.one;
         }
 
-        var component = viewGameObject.GetComponent<T>();
+        var component = popupGameObject.GetComponent<T>();
+        component.OnClosed += OnPopupClosed;
+        
         if (component == null)
         {
-            UnityEngine.Object.Destroy(viewGameObject);
+            UnityEngine.Object.Destroy(popupGameObject);
             throw new InvalidOperationException($"PopupsStorage: Instantiated prefab for {type.Name} does not contain component {type.Name}.");
         }
 
         _activePopups.Add(type, component);
         return component;
+    }
+    
+    private void OnPopupClosed(Popup popup)
+    {
+        popup.OnClosed -= OnPopupClosed;
     }
 
     public void CloseAll()
@@ -68,5 +76,11 @@ public class PopupsStorage
                 Debug.LogException(ex);
             }
         }
+        _activePopups.Clear();
+    }
+
+    public void Dispose()
+    {
+        CloseAll();
     }
 }

@@ -1,5 +1,5 @@
 <!-- UNITY CODE ASSIST INSTRUCTIONS START -->
-- Project name: GalleryImagesUnity
+- Project name: Unity_GalleryImages
 - Unity version: Unity 2022.3.62f3
 - Active scene:
   - Name: Scene
@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Water, UI
 - Active game object:
-  - Name: RectMask3_copy
+  - Name: SceneContext
   - Tag: Untagged
-  - Layer: UI
+  - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

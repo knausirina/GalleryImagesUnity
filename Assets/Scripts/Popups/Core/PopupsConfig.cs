@@ -24,17 +24,9 @@ public class PopupsConfig : ScriptableObject
                 continue;
             }
 
-            var components = prefab.GetComponentsInChildren<Popup>(true);
-            foreach (var comp in components)
-            {
-                if (comp == null) continue;
-
-                Type type = comp.GetType();
-                if (!_cache.TryAdd(type, prefab))
-                {
-                    Debug.LogWarning($"[PopupsConfig] Duplicate type {type.Name} on prefab {prefab.name}");
-                }
-            }
+            var component = prefab.GetComponent<Popup>();
+            if (component != null)
+                _cache[component.GetType()] = prefab;
         }
     }
 
@@ -43,11 +35,6 @@ public class PopupsConfig : ScriptableObject
         if (_cache == null)
             Initialize();
 
-        if (_cache.TryGetValue(typeof(T), out var prefab))
-        {
-            return prefab;
-        }
-
-        return null;
+        return _cache.GetValueOrDefault(typeof(T));
     }
 }
